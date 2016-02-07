@@ -1,5 +1,5 @@
 class BestFirstSearch:
-    def getNextMoveSum(self,prev,index,GridObj,depth,player)
+    def getNextMoveSum(self,prev,index,GridObj,depth,player):
         if GridObj.getOccupantAt(index)!="*" and depth==0:
             return 0
         if GridObj.getOccupantAt(index) ==player and depth ==1:
@@ -10,7 +10,7 @@ class BestFirstSearch:
             if self.getNextMoveSum(index,index,GridObj,depth+1,player)!=0:
                 return self.getNextMoveSum(index,index,GridObj,depth+1,player)+self.getNextMoveSum(index,index-1,GridObj,depth+1,player)+self.getNextMoveSum(index,index+1,GridObj,depth+1,player)+self.getNextMoveSum(index,index+5,GridObj,depth+1,player)+self.getNextMoveSum(index,index-5,GridObj,depth+1,player)
                 #return self.getNextMoveSum(index,index,GridObj,depth+1,player)
-            else
+            else:
                 return 0
         if (GridObj.getOccupantAt(index) == "*" or GridObj.getOccupantAt(index) == GridObj.getOtherPlayer(player) )and prev == index and depth==2:
             return GridObj.getValueAt(index)
