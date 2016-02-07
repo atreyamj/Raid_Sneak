@@ -93,7 +93,7 @@ class Grid:
     GridOccupantDict[22] = "X"
     GridOccupantDict[23] = "*"
     GridOccupantDict[24] = "O"
-    GridOccupantDict[25] = "X"
+    GridOccupantDict[25] = "O"
 
     #def InitGrids(self,**ValueDict,**OccupantDict,**IndexDict):
      #   self.GridValueDict=ValueDict.copy()
