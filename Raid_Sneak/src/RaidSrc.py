@@ -348,6 +348,7 @@ class Grid:
         TestGrid.setGridCount()
         if Algo==2:
             self.GridMinMaxMaxValues.clear()
+
             if 'key' in self.GridMinMaxMaxValues:
                 del self.GridMinMaxMaxValues['key']
            # max=self.getSneak_Raid_Value(Player,0,0)
