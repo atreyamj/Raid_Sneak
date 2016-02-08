@@ -1,3 +1,6 @@
+from Tkinter import Place
+
+
 class BestFirstSearch:
     def getNextMoveSum(self,prev,index,GridObj,depth,player):
         if GridObj.getOccupantAt(index)!="*" and depth==0:
@@ -30,6 +33,8 @@ class Grid:
     GridValueDict=dict()
     GridOccupantDict=dict()
     GridOccupantDictCopy=dict()
+    GridOccupantDictShadow=dict()
+    GridOccupantDictSneakRaidShadow=dict()
     GridIndexDict=dict()
     GBFS=BestFirstSearch()
     GridMaxValues=dict()
@@ -37,6 +42,7 @@ class Grid:
     NextXPos=0;
     NextOPos=0;
     GridCount=0;
+    maxDepth=2;
     GridValueDict[1] = 8
     GridValueDict[2] = 16
     GridValueDict[3] = 1
@@ -108,6 +114,34 @@ class Grid:
             self.GridOccupantDictCopy[i]=self.GridOccupantDict[i]
             i=i+1
 
+    def ResetOccupantDict(self):
+        i=1
+        while(i<=25):
+            self.GridOccupantDict[i]=self.GridOccupantDictCopy[i]
+            i=i+1
+
+    def RestoreOccupantDict(self):
+        i=1
+        while(i<=25):
+            self.GridOccupantDict[i]=self.GridOccupantDictShadow[i]
+            i=i+1
+
+    def CopyShadowOccupantDict(self):
+        i=1
+        while(i<=25):
+            self.GridOccupantDictShadow[i]=self.GridOccupantDict[i]
+            i=i+1
+    def RestoreSneakOccupantDict(self):
+        i=1
+        while(i<=25):
+            self.GridOccupantDict[i]=self.GridOccupantDictSneakRaidShadow[i]
+            i=i+1
+
+    def CopySneakShadowOccupantDict(self):
+        i=1
+        while(i<=25):
+            self.GridOccupantDictSneakRaidShadow[i]=self.GridOccupantDict[i]
+            i=i+1
 
     def getValueAt(self,index):
         if self.GridValueDict.has_key(index) == True:
@@ -296,6 +330,111 @@ class Grid:
             i=i+1
         return PlayerVal-OPlayerVal
 
+
+    def RaidAtIndex(self,index,Player,depth):
+        val=0;
+        if index!=1 and index!=6 and index!=11 and index!=16 and index!=21:
+            if self.getOccupantAt(index-1)==self.getOtherPlayer(Player):
+                val+=self.getValueAt(index-1)
+                self.setOccupantAt(index-1,Player)
+
+        if index>5:
+          if self.getOccupantAt(index-5)==self.getOtherPlayer(Player):
+                val+=self.getValueAt(index-5)
+                self.setOccupantAt(index-5,Player)
+
+        if index!=5 and index!=10 and index!=15 and index!=20 and index!=25:
+           if self.getOccupantAt(index+1)==self.getOtherPlayer(Player):
+                val+=self.getValueAt(index+1)
+                self.setOccupantAt(index+1,Player)
+
+        if index<21:
+          if self.getOccupantAt(index+5)==self.getOtherPlayer(Player):
+                val+=self.getValueAt(index+5)
+                self.setOccupantAt(index+5,Player)
+        return val
+
+    def SneakAtIndex(self,index,Player,depth):
+        self.setOccupantAt(index,Player)
+        return self.getValueAt(index)
+
+    def getRaidSneakPositions(self,index,Player,depth):
+        val1=0
+        val2=0
+        val3=0
+        val4=0
+
+        if index!=1 and index!=6 and index!=11 and index!=16 and index!=21:
+            if self.isSneakable(index-1)==True:
+                self.SneakAtIndex(index-1,Player,depth)
+            else:
+                self.RaidAtIndex(index-1,Player,depth)
+            depth=depth+1
+            self.CopyShadowOccupantDict()
+            val1=self.getPositions(self.getOtherPlayer(Player),depth)
+            self.RestoreOccupantDict()
+            depth=depth-1
+
+        if index>5:
+            if self.isSneakable(index-5)==True:
+                self.SneakAtIndex(index-5,Player,depth)
+
+            else:
+                self.RaidAtIndex(index-5,Player,depth)
+            depth=depth+1
+            self.CopyShadowOccupantDict()
+            val2=self.getPositions(self.getOtherPlayer(Player),depth)
+            self.RestoreOccupantDict()
+            depth=depth-1
+
+        if index!=5 and index!=10 and index!=15 and index!=20 and index!=25:
+            if self.isSneakable(index+1)==True:
+                self.SneakAtIndex(index+1,Player,depth)
+            else:
+                self.RaidAtIndex(index+1,Player,depth)
+            depth=depth+1
+            self.CopyShadowOccupantDict()
+            val3=self.getPositions(self.getOtherPlayer(Player),depth)
+            self.RestoreOccupantDict()
+            depth=depth-1
+
+        if index<21:
+            if self.isSneakable(index+5)==True:
+                self.SneakAtIndex(index+5,Player,depth)
+            else:
+                self.RaidAtIndex(index+5,Player,depth)
+            depth=depth+1
+            self.CopyShadowOccupantDict()
+            val4=self.getPositions(self.getOtherPlayer(Player),depth)
+            self.RestoreOccupantDict()
+            if depth%2==0:
+                return max(val1,val2,val3,val4)
+            else:
+                return min(val1,val2,val3,val4)
+
+    def getPositions(self,Player,depth):
+        if depth>=self.maxDepth:
+            return self.EvalFunction(Player)
+        maxs=0
+        mins=0
+        val=0
+        i=0
+        while i<=25:
+            if self.getOccupantAt(i)==Player:
+               self.CopyShadowOccupantDict()
+               val=self.getRaidSneakPositions(i,Player,depth)
+               self.RestoreOccupantDict()
+               if val>maxs:
+                maxs=val
+               if val<mins:
+                mins=val
+            i=i+1
+        if depth==0:
+            return maxs
+        elif depth==1:
+            return mins
+
+
     def MinMaxInit(self,index,Player,StartPlayer,RaidFlag,depth):
         if depth==0:
             return self.EvalFunction(Player)
@@ -309,8 +448,6 @@ class Grid:
                     lval= self.getValueAt(index)+self.MinMaxInit(index-1,Player,StartPlayer,1,depth)
                 else:
                     lval= self.getValueAt(index)+self.MinMaxInit(index-1,self.getOtherPlayer(Player),StartPlayer,1,depth)
-
-
         if index>5:
             if self.getOccupantAt(index-5)== "*":
                 if depth==self.getGridCount()-1:
@@ -365,7 +502,8 @@ class Grid:
 
 TestGrid=Grid()
 TestGrid.setGridCount()
-TestGrid.ParseGrid(2,"X")
+print TestGrid.getPositions("O",0)
+#TestGrid.ParseGrid(2,"X")
 
 
 
