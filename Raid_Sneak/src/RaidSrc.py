@@ -307,7 +307,6 @@ class Grid:
         if index<21:
             if self.getOccupantAt(index+5)== "*":
                 self.MinMaxInit(index-1,self.getOtherPlayer(Player),StartPlayer,1)
-
         self.setGridCount()
         print "called"
 
