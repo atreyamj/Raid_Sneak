@@ -29,6 +29,7 @@ class Grid:
     MAX_SIZE=25;
     GridValueDict=dict()
     GridOccupantDict=dict()
+    GridOccupantDictCopy=dict()
     GridIndexDict=dict()
     GBFS=BestFirstSearch()
     GridMaxValues=dict()
@@ -100,6 +101,13 @@ class Grid:
      #   self.GridValueDict=ValueDict.copy()
       #  self.GridOccupantDict=OccupantDict.copy()
        # self.GridIndexDict=IndexDict.copy()
+
+    def CopyOccupantDict(self):
+        i=1
+        while(i<=25):
+            self.GridOccupantDictCopy[i]=self.GridOccupantDict[i]
+            i=i+1
+
 
     def getValueAt(self,index):
         if self.GridValueDict.has_key(index) == True:
@@ -282,33 +290,58 @@ class Grid:
         i=0
         while i<=25:
             if self.getOccupantAt(i)==Player:
-                PlayerVal=PlayerVal+self.getValueAt(i)
+                PlayerVal=PlayerVal+int(float(self.getValueAt(i)))
             elif self.getOccupantAt(i)==self.getOtherPlayer(Player):
-                OPlayerVal=OPlayerVal+self.getValueAt(i)
+                OPlayerVal=OPlayerVal+int(float(self.getValueAt(i)))
             i=i+1
-        return Player-OPlayerVal
+        return PlayerVal-OPlayerVal
 
-    def MinMaxInit(self,index,Player,StartPlayer,RaidFlag):
-        if self.getGridCount()==0:
+    def MinMaxInit(self,index,Player,StartPlayer,RaidFlag,depth):
+        if depth==0:
             return self.EvalFunction(Player)
+        val=lval=rval=upval=downval=0
+        depth=depth-1
+        self.setOccupantAt(index,Player)
         if index!=1 and index!=6 and index!=11 and index!=16 and index!=21:
+
             if self.getOccupantAt(index-1)== "*":
-                self.MinMaxInit(index-1,self.getOtherPlayer(Player),StartPlayer,1)
-                self.setOccupantAt(index-1,Player)
+                if depth==self.getGridCount()-1:
+                    lval= self.getValueAt(index)+self.MinMaxInit(index-1,Player,StartPlayer,1,depth)
+                else:
+                    lval= self.getValueAt(index)+self.MinMaxInit(index-1,self.getOtherPlayer(Player),StartPlayer,1,depth)
+
 
         if index>5:
             if self.getOccupantAt(index-5)== "*":
-                self.MinMaxInit(index-1,self.getOtherPlayer(Player),StartPlayer,1)
+                if depth==self.getGridCount()-1:
+                    rval=self.getValueAt(index)+self.MinMaxInit(index-5,(Player),StartPlayer,1,depth)
+                else:
+                    rval=self.getValueAt(index)+self.MinMaxInit(index-5,self.getOtherPlayer(Player),StartPlayer,1,depth)
+
 
         if index!=5 and index!=10 and index!=15 and index!=20 and index!=25:
             if self.getOccupantAt(index+1)== "*":
-                self.MinMaxInit(index-1,self.getOtherPlayer(Player),StartPlayer,1)
+                  if depth==self.getGridCount()-1:
+                      upval=self.getValueAt(index)+self.MinMaxInit(index+1,(Player),StartPlayer,1,depth)
+                  else:
+                      upval=self.getValueAt(index)+self.MinMaxInit(index+1,self.getOtherPlayer(Player),StartPlayer,1,depth)
 
         if index<21:
             if self.getOccupantAt(index+5)== "*":
-                self.MinMaxInit(index-1,self.getOtherPlayer(Player),StartPlayer,1)
+                if depth==self.getGridCount()-1:
+                    downval=self.getValueAt(index)+self.MinMaxInit(index+5,(Player),StartPlayer,1,depth)
+                else:
+                    downval=self.getValueAt(index)+self.MinMaxInit(index+5,self.getOtherPlayer(Player),StartPlayer,1,depth)
 
-        self.setGridCount()
+        if lval == 0 and rval == 0 and upval == 0 and downval==0:
+            print " "
+        else:
+            if Player==self.getOtherPlayer(StartPlayer):
+                val=min(lval,rval,upval,downval)
+            else:
+                val=max(lval,rval,upval,downval)
+        return val
+
         print "called"
 
     def ParseGrid(self,Algo,Player):
@@ -320,17 +353,17 @@ class Grid:
            # max=self.getSneak_Raid_Value(Player,0,0)
             maxIndex=0
             val=0
+            self.CopyOccupantDict()
             i=0
             while i<=25:
                 if self.getOccupantAt(i)==Player:
-                    self.MinMaxInit(i,Player,Player,1)
+                    print self.MinMaxInit(i,Player,Player,1,self.getGridCount())
                 i=i+1
-
             i=1
 
 
 TestGrid=Grid()
-
+TestGrid.setGridCount()
 TestGrid.ParseGrid(2,"X")
 
 
