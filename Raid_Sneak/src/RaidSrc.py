@@ -165,26 +165,26 @@ class Grid:
             nextIndex=self.getNextMove(AlgoVal, self.NextOPos,player)
         return nextIndex
 
-    def isSneakable(self,index):
+    def isSneakable(self,index,player):
         Sneakable=False
         val1=val2=val3=val4=True
         if index!=1 and index!=6 and index!=11 and index!=16 and index!=21:
-            if self.getOccupantAt(index-1)=="*":
+            if self.getOccupantAt(index-1)!=player:
                 val1=True
             else:
                 val1=False
         if index>5:
-            if self.getOccupantAt(index-5)=="*":
+            if self.getOccupantAt(index-5)!=player:
                 val2=True
             else:
                 val2=False
         if index!=5 and index!=10 and index!=15 and index!=20 and index!=25:
-            if self.getOccupantAt(index+1)=="*":
+            if self.getOccupantAt(index+1)!=player:
                 val3=True
             else:
                 val3=False
         if index<21:
-            if self.getOccupantAt(index+5)=="*":
+            if self.getOccupantAt(index+5)!=player:
                 val4=True
             else:
                 val4=False
@@ -195,7 +195,7 @@ class Grid:
         maxm=0
         maxIndex=0
         while(i<=25):
-            if maxm < self.getValueAt(i) and self.getOccupantAt(i)=="*" and self.isSneakable(i)==True:
+            if maxm < self.getValueAt(i) and self.getOccupantAt(i)=="*" and self.isSneakable(i,player)==True:
                 maxm= self.getValueAt(i)
                 maxIndex=i
             i=i+1
@@ -297,7 +297,7 @@ class Grid:
         return PlayerVal-OPlayerVal
 
     def MinMaxInit(self,index,Player,StartPlayer,RaidFlag,depth):
-        if depth==0:
+        if depth==self.getGridCount()-2:
             return self.EvalFunction(Player)
         val=lval=rval=upval=downval=0
         depth=depth-1
