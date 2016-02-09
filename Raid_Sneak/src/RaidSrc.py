@@ -119,8 +119,6 @@ class Grid:
         ii=ii+1
         jj=jj+1
 
-
-
     ##print GridValueDict
     ##print GridOccupantDict
 
