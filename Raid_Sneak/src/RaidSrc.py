@@ -1,4 +1,3 @@
-from Tkinter import Place
 import sys,getopt
 class ReadFromInputFile:
     #input_file_handle = open('foo.txt','r')
@@ -9,50 +8,50 @@ class ReadFromInputFile:
     CurrentBoard= dict()
 
     def read_game(self,file_handle):
-        self.AlgoName = int(file_handle.readline().rstrip('\n'))
-        self.PlayerName = str(file_handle.readline().rstrip('\n'))
-        self.CutOff=int(file_handle.readline().rstrip('\n'))
-        myList1=file_handle.readline().rstrip('\n').split(' ')
+        self.AlgoName = int(file_handle.readline().rstrip('\r\n'))
+        self.PlayerName = str(file_handle.readline().rstrip('\r\n'))
+        self.CutOff=int(file_handle.readline().rstrip('\r\n'))
+        myList1=file_handle.readline().rstrip('\r\n').split(' ')
         for x in range(0,5):
             self.GameBoard[x]=myList1[x]
 
-        myList2=file_handle.readline().rstrip('\n').split(' ')
+        myList2=file_handle.readline().rstrip('\r\n').split(' ')
         for x in range(0,5):
             self.GameBoard[x+5]=myList2[x]
 
-        myList3=file_handle.readline().rstrip('\n').split(' ')
+        myList3=file_handle.readline().rstrip('\r\n').split(' ')
         for x in range(0,5):
             self.GameBoard[x+10]=myList3[x]
 
-        myList4=file_handle.readline().rstrip('\n').split(' ')
+        myList4=file_handle.readline().rstrip('\r\n').split(' ')
         for x in range(0,5):
             self.GameBoard[x+15]=myList4[x]
 
-        myList5=file_handle.readline().rstrip('\n').split(' ')
+        myList5=file_handle.readline().rstrip('\r\n').split(' ')
         for x in range(0,5):
             self.GameBoard[x+20]=myList5[x]
 
-        mylist6=file_handle.readline().rstrip('\n').split(' ')
+        mylist6=file_handle.readline().rstrip('\r\n').split(' ')
         stringtest= str(mylist6)
         for x in range(2,7):
             self.CurrentBoard[x-2]=stringtest[x]
 
-        mylist7=file_handle.readline().rstrip('\n').split(' ')
+        mylist7=file_handle.readline().rstrip('\r\n').split(' ')
         stringtest= str(mylist7)
         for x in range(2,7):
             self.CurrentBoard[x+3]=stringtest[x]
 
-        mylist8=file_handle.readline().rstrip('\n').split(' ')
+        mylist8=file_handle.readline().rstrip('\r\n').split(' ')
         stringtest= str(mylist8)
         for x in range(2,7):
             self.CurrentBoard[x+8]=stringtest[x]
 
-        mylist9=file_handle.readline().rstrip('\n').split(' ')
+        mylist9=file_handle.readline().rstrip('\r\n').split(' ')
         stringtest= str(mylist9)
         for x in range(2,7):
             self.CurrentBoard[x+13]=stringtest[x]
 
-        mylist10=file_handle.readline().rstrip('\n').split(' ')
+        mylist10=file_handle.readline().rstrip('\r\n').split(' ')
         stringtest= str(mylist10)
         for x in range(2,7):
             self.CurrentBoard[x+18]=stringtest[x]
@@ -122,7 +121,8 @@ class Grid:
 
 
 
-
+    ##print GridValueDict
+    ##print GridOccupantDict
 
 
 
@@ -316,22 +316,22 @@ class Grid:
         Sneakable=False
         val1=val2=val3=val4=True
         if index!=1 and index!=6 and index!=11 and index!=16 and index!=21:
-            if self.getOccupantAt(index-1)=="*":
+            if self.getOccupantAt(index-1)!="X":
                 val1=True
             else:
                 val1=False
         if index>5:
-            if self.getOccupantAt(index-5)=="*":
+            if self.getOccupantAt(index-5)!="X":
                 val2=True
             else:
                 val2=False
         if index!=5 and index!=10 and index!=15 and index!=20 and index!=25:
-            if self.getOccupantAt(index+1)=="*":
+            if self.getOccupantAt(index+1)!="X":
                 val3=True
             else:
                 val3=False
         if index<21:
-            if self.getOccupantAt(index+5)=="*":
+            if self.getOccupantAt(index+5)!="X":
                 val4=True
             else:
                 val4=False
@@ -405,29 +405,29 @@ class Grid:
         if maxIndex==0:
             print "No solutions"
             return 0
-        print str(maxIndex) + " --- > " + str(max)
+       # print str(maxIndex) + " --- > " + str(max)
 
         self.setOccupantAt(maxIndex,player)
         if maxIndex!=1 and maxIndex!=6 and maxIndex!=11 and maxIndex!=16 and maxIndex!=21:
             if self.getOccupantAt(maxIndex-1)==self.getOtherPlayer(player):
-                print str(maxIndex-1) +"----->"+ self.getOccupantAt(maxIndex-1)
+                #print str(maxIndex-1) +"----->"+ self.getOccupantAt(maxIndex-1)
                 self.setOccupantAt(maxIndex-1,player)
-                print str(maxIndex-1) +"----->" +self.getOccupantAt(maxIndex-1)
+               # print str(maxIndex-1) +"----->" +self.getOccupantAt(maxIndex-1)
         if maxIndex>5:
             if self.getOccupantAt(maxIndex-5)==self.getOtherPlayer(player):
-                print str(maxIndex-5) +"----->"+ self.getOccupantAt(maxIndex-5)
+               # print str(maxIndex-5) +"----->"+ self.getOccupantAt(maxIndex-5)
                 self.setOccupantAt(maxIndex-5,player)
-                print str(maxIndex-5) +"----->"+ self.getOccupantAt(maxIndex-5)
+               # print str(maxIndex-5) +"----->"+ self.getOccupantAt(maxIndex-5)
         if maxIndex!=5 and maxIndex!=10 and maxIndex!=15 and maxIndex!=20 and maxIndex!=25:
             if self.getOccupantAt(maxIndex+1)==self.getOtherPlayer(player):
-                print str(maxIndex+1) +"----->"+ self.getOccupantAt(maxIndex+1)
+               # print str(maxIndex+1) +"----->"+ self.getOccupantAt(maxIndex+1)
                 self.setOccupantAt(maxIndex+1,player)
-                print str(maxIndex+1) +"----->" +self.getOccupantAt(maxIndex+1)
+                #print str(maxIndex+1) +"----->" +self.getOccupantAt(maxIndex+1)
         if maxIndex<21:
             if self.getOccupantAt(maxIndex+5)==self.getOtherPlayer(player):
-                print str(maxIndex+5) +"----->"+ self.getOccupantAt(maxIndex+5)
+               # print str(maxIndex+5) +"----->"+ self.getOccupantAt(maxIndex+5)
                 self.setOccupantAt(maxIndex+5,player)
-                print str(maxIndex+5) +"----->" +self.getOccupantAt(maxIndex+5)
+              #  print str(maxIndex+5) +"----->" +self.getOccupantAt(maxIndex+5)
 
         return maxIndex
 
@@ -592,7 +592,7 @@ class Grid:
                 val=max(lval,rval,upval,downval)
         return val
 
-        print "called"
+        #print "called"
 
     def ParseGrid(self,Algo,Player):
         TestGrid.setGridCount()
@@ -622,10 +622,14 @@ print TestGrid.getPositions("O",0)
 
 TestGrid=Grid()
 TestGrid.setGridCount()
+#print str(TestGrid.FileHandleObject.AlgoName)+" ------------- Player"
 if TestGrid.FileHandleObject.AlgoName==1:
-    print TestGrid.StartGBFS(1,TestGrid.FileHandleObject.PlayerName)
+    TestGrid.StartGBFS(1,TestGrid.FileHandleObject.PlayerName)
 
-f = open('nextstate.txt','w')
+f = open('next_state.txt','w')
+f.write ("")
+f.close()
+f = open('next_state.txt','w')
 i=1
 while i<=25:
     f.write( TestGrid.getOccupantAt(i) + TestGrid.getOccupantAt(i+1)+TestGrid.getOccupantAt(i+2)+TestGrid.getOccupantAt(i+3)+TestGrid.getOccupantAt(i+4))
