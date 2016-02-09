@@ -1,5 +1,5 @@
 from Tkinter import Place
-
+import sys,getopt
 class ReadFromInputFile:
     #input_file_handle = open('foo.txt','r')
     AlgoName=0
@@ -100,7 +100,8 @@ class Grid:
     GridCount=0;
     maxDepth=2;
     FileHandleObject=ReadFromInputFile()
-    ReadFileHandle = open('input.txt','r')
+
+    ReadFileHandle = open(str(sys.argv[2]),'r')
     FileHandleObject.read_game(ReadFileHandle)
     #GridValueDict=FileHandleObject.GameBoard
     GridValueTemp=FileHandleObject.GameBoard
@@ -341,8 +342,8 @@ class Grid:
         maxm=0
         maxIndex=0
         while(i<=25):
-            if maxm < self.getValueAt(i) and self.getOccupantAt(i)=="*" and self.isSneakable(i)==True:
-                maxm= self.getValueAt(i)
+            if maxm < int(self.getValueAt(i)) and self.getOccupantAt(i)=="*" and self.isSneakable(i)==True:
+                maxm= int(self.getValueAt(i))
                 maxIndex=i
             i=i+1
         if RaidMax<=maxm:
