@@ -621,73 +621,16 @@ print TestGrid.getPositions("O",0)
 
 TestGrid=Grid()
 TestGrid.setGridCount()
-print TestGrid.StartGBFS(1,"O")
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
+if TestGrid.FileHandleObject.AlgoName==1:
+    print TestGrid.StartGBFS(1,TestGrid.FileHandleObject.PlayerName)
 
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
-print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")
-
+f = open('nextstate.txt','w')
+i=1
+while i<=25:
+    f.write( TestGrid.getOccupantAt(i) + TestGrid.getOccupantAt(i+1)+TestGrid.getOccupantAt(i+2)+TestGrid.getOccupantAt(i+3)+TestGrid.getOccupantAt(i+4))
+    f.write("\n")
+    i=i+5
+f.close() # you can omit in most cases as the destructor will call it
 
 
 
