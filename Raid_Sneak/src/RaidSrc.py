@@ -1,5 +1,61 @@
 from Tkinter import Place
 
+class ReadFromInputFile:
+    #input_file_handle = open('foo.txt','r')
+    AlgoName=0
+    PlayerName = 0
+    CutOff = 0
+    GameBoard = dict()
+    CurrentBoard= dict()
+
+    def read_game(self,file_handle):
+        self.AlgoName = int(file_handle.readline().rstrip('\n'))
+        self.PlayerName = str(file_handle.readline().rstrip('\n'))
+        self.CutOff=int(file_handle.readline().rstrip('\n'))
+        myList1=file_handle.readline().rstrip('\n').split(' ')
+        for x in range(0,5):
+            self.GameBoard[x]=myList1[x]
+
+        myList2=file_handle.readline().rstrip('\n').split(' ')
+        for x in range(0,5):
+            self.GameBoard[x+5]=myList2[x]
+
+        myList3=file_handle.readline().rstrip('\n').split(' ')
+        for x in range(0,5):
+            self.GameBoard[x+10]=myList3[x]
+
+        myList4=file_handle.readline().rstrip('\n').split(' ')
+        for x in range(0,5):
+            self.GameBoard[x+15]=myList4[x]
+
+        myList5=file_handle.readline().rstrip('\n').split(' ')
+        for x in range(0,5):
+            self.GameBoard[x+20]=myList5[x]
+
+        mylist6=file_handle.readline().rstrip('\n').split(' ')
+        stringtest= str(mylist6)
+        for x in range(2,7):
+            self.CurrentBoard[x-2]=stringtest[x]
+
+        mylist7=file_handle.readline().rstrip('\n').split(' ')
+        stringtest= str(mylist7)
+        for x in range(2,7):
+            self.CurrentBoard[x+3]=stringtest[x]
+
+        mylist8=file_handle.readline().rstrip('\n').split(' ')
+        stringtest= str(mylist8)
+        for x in range(2,7):
+            self.CurrentBoard[x+8]=stringtest[x]
+
+        mylist9=file_handle.readline().rstrip('\n').split(' ')
+        stringtest= str(mylist9)
+        for x in range(2,7):
+            self.CurrentBoard[x+13]=stringtest[x]
+
+        mylist10=file_handle.readline().rstrip('\n').split(' ')
+        stringtest= str(mylist10)
+        for x in range(2,7):
+            self.CurrentBoard[x+18]=stringtest[x]
 
 class BestFirstSearch:
     def getNextMoveSum(self,prev,index,GridObj,depth,player):
@@ -11,7 +67,7 @@ class BestFirstSearch:
             return 0
         if depth==1:
             if self.getNextMoveSum(index,index,GridObj,depth+1,player)!=0:
-                return self.getNextMoveSum(index,index,GridObj,depth+1,player)+self.getNextMoveSum(index,index-1,GridObj,depth+1,player)+self.getNextMoveSum(index,index+1,GridObj,depth+1,player)+self.getNextMoveSum(index,index+5,GridObj,depth+1,player)+self.getNextMoveSum(index,index-5,GridObj,depth+1,player)
+                return int(self.getNextMoveSum(index,index,GridObj,depth+1,player))+int(self.getNextMoveSum(index,index-1,GridObj,depth+1,player))+int(self.getNextMoveSum(index,index+1,GridObj,depth+1,player))+int(self.getNextMoveSum(index,index+5,GridObj,depth+1,player))+int(self.getNextMoveSum(index,index-5,GridObj,depth+1,player))
                 #return self.getNextMoveSum(index,index,GridObj,depth+1,player)
             else:
                 return 0
@@ -43,7 +99,35 @@ class Grid:
     NextOPos=0;
     GridCount=0;
     maxDepth=2;
-    GridValueDict[1] = 8
+    FileHandleObject=ReadFromInputFile()
+    ReadFileHandle = open('input.txt','r')
+    FileHandleObject.read_game(ReadFileHandle)
+    #GridValueDict=FileHandleObject.GameBoard
+    GridValueTemp=FileHandleObject.GameBoard
+    GridOccupantTemp=FileHandleObject.CurrentBoard
+    ii=0
+    jj=1
+    while ii < 25:
+        GridOccupantDict[jj]=GridOccupantTemp[ii]
+        ii=ii+1
+        jj=jj+1
+
+    ii=0
+    jj=1
+    while ii < 25:
+        GridValueDict[jj]=GridValueTemp[ii]
+        ii=ii+1
+        jj=jj+1
+
+
+
+
+
+
+
+    #GridOccupantDict=FileHandleObject.CurrentBoard
+
+    ''' GridValueDict[1] = 8
     GridValueDict[2] = 16
     GridValueDict[3] = 1
     GridValueDict[4] = 32
@@ -101,8 +185,36 @@ class Grid:
     GridOccupantDict[22] = "X"
     GridOccupantDict[23] = "*"
     GridOccupantDict[24] = "O"
-    GridOccupantDict[25] = "O"
+    GridOccupantDict[25] = "O"'''
 
+
+
+    GridIndexDict=dict()
+    GridIndexDict[1]= 'A1'
+    GridIndexDict[2]= 'B1'
+    GridIndexDict[3]= 'C1'
+    GridIndexDict[4]= 'D1'
+    GridIndexDict[5]= 'E1'
+    GridIndexDict[6]= 'A2'
+    GridIndexDict[7]= 'B2'
+    GridIndexDict[8]= 'C2'
+    GridIndexDict[9]= 'D2'
+    GridIndexDict[10]= 'E2'
+    GridIndexDict[11]= 'A3'
+    GridIndexDict[12]= 'B3'
+    GridIndexDict[13]= 'C3'
+    GridIndexDict[14]= 'D3'
+    GridIndexDict[15]= 'E3'
+    GridIndexDict[16]= 'A4'
+    GridIndexDict[17]= 'B4'
+    GridIndexDict[18]= 'C4'
+    GridIndexDict[19]= 'D4'
+    GridIndexDict[20]= 'E4'
+    GridIndexDict[21]= 'A5'
+    GridIndexDict[22]= 'B5'
+    GridIndexDict[23]= 'C5'
+    GridIndexDict[24]= 'D5'
+    GridIndexDict[25]= 'E5'
     #def InitGrids(self,**ValueDict,**OccupantDict,**IndexDict):
      #   self.GridValueDict=ValueDict.copy()
       #  self.GridOccupantDict=OccupantDict.copy()
@@ -500,14 +612,14 @@ class Grid:
             i=1
 
 
-TestGrid=Grid()
+'''TestGrid=Grid()
 TestGrid.setGridCount()
 print TestGrid.getPositions("O",0)
-#TestGrid.ParseGrid(2,"X")
+#TestGrid.ParseGrid(2,"X")'''
 
 
 
-''' TestGrid=Grid()
+TestGrid=Grid()
 TestGrid.setGridCount()
 print TestGrid.StartGBFS(1,"O")
 print TestGrid.StartGBFS(1,"X")
@@ -574,7 +686,7 @@ print TestGrid.StartGBFS(1,"X")
 print TestGrid.StartGBFS(1,"O")
 
 print TestGrid.StartGBFS(1,"X")
-print TestGrid.StartGBFS(1,"O")'''
+print TestGrid.StartGBFS(1,"O")
 
 
 
