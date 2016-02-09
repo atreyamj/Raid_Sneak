@@ -356,6 +356,7 @@ class Grid:
 
     def getNextMove(self,AlgoVal,index,player):
         if AlgoVal==1:
+
             val1=val2=val3=val4=0
             if self.getOccupantAt(index+1)=="*":
                 val1=self.GBFS.getNextMoveSum(index,index+1,self,1,player)
