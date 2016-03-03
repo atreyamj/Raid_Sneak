@@ -15,56 +15,55 @@ CurrentBoard= dict()
 
 
 
-def read_game(file_handle):
-    global AlgoName,PlayerName,CutOff,GameBoard,CurrentBoard
+global AlgoName,PlayerName,CutOff,GameBoard,CurrentBoard
 
-    AlgoName = int(file_handle.readline().rstrip('\n'))
-    PlayerName = str(file_handle.readline().rstrip('\n'))
-    CutOff=int(file_handle.readline().rstrip('\n'))
-    myList1=file_handle.readline().rstrip('\n').split(' ')
-    for x in range(0,5):
-        GameBoard[x]=myList1[x]
+AlgoName = int(file_handle.readline().rstrip('\n'))
+PlayerName = str(file_handle.readline().rstrip('\n'))
+CutOff=int(file_handle.readline().rstrip('\n'))
+myList1=file_handle.readline().rstrip('\n').split(' ')
+for x in range(0,5):
+    GameBoard[x]=myList1[x]
 
-    myList2=file_handle.readline().rstrip('\n').split(' ')
-    for x in range(0,5):
-        GameBoard[x+5]=myList2[x]
+myList2=file_handle.readline().rstrip('\n').split(' ')
+for x in range(0,5):
+    GameBoard[x+5]=myList2[x]
 
-    myList3=file_handle.readline().rstrip('\n').split(' ')
-    for x in range(0,5):
-        GameBoard[x+10]=myList3[x]
+myList3=file_handle.readline().rstrip('\n').split(' ')
+for x in range(0,5):
+    GameBoard[x+10]=myList3[x]
 
-    myList4=file_handle.readline().rstrip('\n').split(' ')
-    for x in range(0,5):
-        GameBoard[x+15]=myList4[x]
+myList4=file_handle.readline().rstrip('\n').split(' ')
+for x in range(0,5):
+    GameBoard[x+15]=myList4[x]
 
-    myList5=file_handle.readline().rstrip('\n').split(' ')
-    for x in range(0,5):
-        GameBoard[x+20]=myList5[x]
+myList5=file_handle.readline().rstrip('\n').split(' ')
+for x in range(0,5):
+    GameBoard[x+20]=myList5[x]
 
-    mylist6=file_handle.readline().rstrip('\n').split(' ')
-    stringtest= str(mylist6)
-    for x in range(2,7):
-        CurrentBoard[x-2]=stringtest[x]
+mylist6=file_handle.readline().rstrip('\n').split(' ')
+stringtest= str(mylist6)
+for x in range(2,7):
+    CurrentBoard[x-2]=stringtest[x]
 
-    mylist7=file_handle.readline().rstrip('\n').split(' ')
-    stringtest= str(mylist7)
-    for x in range(2,7):
-        CurrentBoard[x+3]=stringtest[x]
+mylist7=file_handle.readline().rstrip('\n').split(' ')
+stringtest= str(mylist7)
+for x in range(2,7):
+    CurrentBoard[x+3]=stringtest[x]
 
-    mylist8=file_handle.readline().rstrip('\n').split(' ')
-    stringtest= str(mylist8)
-    for x in range(2,7):
-        CurrentBoard[x+8]=stringtest[x]
+mylist8=file_handle.readline().rstrip('\n').split(' ')
+stringtest= str(mylist8)
+for x in range(2,7):
+    CurrentBoard[x+8]=stringtest[x]
 
-    mylist9=file_handle.readline().rstrip('\n').split(' ')
-    stringtest= str(mylist9)
-    for x in range(2,7):
-        CurrentBoard[x+13]=stringtest[x]
+mylist9=file_handle.readline().rstrip('\n').split(' ')
+stringtest= str(mylist9)
+for x in range(2,7):
+    CurrentBoard[x+13]=stringtest[x]
 
-    mylist10=file_handle.readline().rstrip('\n').split(' ')
-    stringtest= str(mylist10)
-    for x in range(2,7):
-        CurrentBoard[x+18]=stringtest[x]
+mylist10=file_handle.readline().rstrip('\n').split(' ')
+stringtest= str(mylist10)
+for x in range(2,7):
+    CurrentBoard[x+18]=stringtest[x]
 
 
 

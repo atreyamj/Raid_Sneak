@@ -1,4 +1,5 @@
 import sys,getopt
+
 class ReadFromInputFile:
     #input_file_handle = open('foo.txt','r')
     AlgoName=0
